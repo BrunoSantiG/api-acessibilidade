@@ -2,18 +2,23 @@ import * as Yup from 'yup';
 import Usuario from '../models/Usuario';
 
 class UsuarioController {
+  
   async store(req, res) {
-    const schema = Yup.object().shape({
+    const schemaTipo_Usuario = Yup.object().shape({
       name: Yup.string().required(),
       email: Yup.string()
         .email()
         .required(),
-      password: Yup.string()
+      usuario: Yup.string().required(),
+      senha: Yup.string()
         .required()
         .min(6),
+      id_tipo_usuario: Yup.number().required(),
+      id_tipo_deficiencia: Yup.number().required(),
+      id_endereco: Yupo.number().required(),
     });
 
-    if (!(await schema.isValid(req.body))) {
+    if (!(await schemaTipo_Usuario.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
@@ -34,7 +39,7 @@ class UsuarioController {
     });
   }
 
-  async update(req, res) {
+  /*async update(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string(),
       email: Yup.string().email(),
@@ -76,7 +81,7 @@ class UsuarioController {
       email,
       provider,
     });
-  }
+  }*/
 }
 
 export default new UsuarioController();

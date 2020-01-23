@@ -1,7 +1,8 @@
-import * as Yup from "yup";
-import Usuario from "../models/Usuario";
+import * as Yup from 'yup';
+import Usuario from '../models/Usuario';
 
 class UsuarioController {
+  
   async store(req, res) {
     const schemaTipo_Usuario = Yup.object().shape({
       name: Yup.string().required(),
@@ -14,19 +15,19 @@ class UsuarioController {
         .min(6),
       id_tipo_usuario: Yup.number().required(),
       id_tipo_deficiencia: Yup.number().required(),
-      id_endereco: Yup.number().required()
+      id_endereco: Yupo.number().required(),
     });
 
     if (!(await schemaTipo_Usuario.isValid(req.body))) {
-      return res.status(400).json({ error: "Validation fails" });
+      return res.status(400).json({ error: 'Validation fails' });
     }
 
     const usuarioExists = await Usuario.findOne({
-      where: { email: req.body.email }
+      where: { email: req.body.email },
     });
 
     if (usuarioExists) {
-      return res.status(400).json({ error: "Usuario already exists." });
+      return res.status(400).json({ error: 'Usuario already exists.' });
     }
     const { id, name, email, provider } = await Usuario.create(req.body);
 
@@ -34,7 +35,7 @@ class UsuarioController {
       id,
       name,
       email,
-      provider
+      provider,
     });
   }
 

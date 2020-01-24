@@ -8,6 +8,8 @@ import Curriculo from "../app/models/Curriculo";
 import Endereco from "../app/models/Endereco";
 import Usuario_Pcd from "../app/models/Usuario_Pcd";
 import Empresa from "../app/models/Empresa";
+import Usuario_Freelancer from "../app/models/Usuario_Freelancer";
+import Proposta from "../app/models/Proposta";
 
 const models = [
   Tipo_Usuario,
@@ -16,7 +18,9 @@ const models = [
   Curriculo,
   Endereco,
   Usuario_Pcd,
-  Empresa
+  Empresa,
+  Usuario_Freelancer,
+  Proposta
 ];
 
 class Database {

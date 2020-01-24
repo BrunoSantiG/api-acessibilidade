@@ -1,6 +1,6 @@
 import Sequelize, { Model } from "sequelize";
 
-class Usuario_Pcd extends Model {
+class Usuario_pcd extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -21,11 +21,11 @@ class Usuario_Pcd extends Model {
   }
 }
 
-Usuario_Pcd.associate = models => {
-  Usuario_Pcd.hasOne(models.Tipo_Deficiencia);
-  Usuario_Pcd.hasOne(models.Usuario);
-  Usuario_Pcd.hasOne(models.Curriculo);
-  Usuario_Pcd.hasOne(models.Endereco);
+Usuario_pcd.associate = models => {
+  Usuario_pcd.hasOne(models.Tipo_Deficiencia);
+  Usuario_pcd.hasOne(models.Usuario);
+  Usuario_pcd.hasOne(models.Curriculo);
+  Usuario_pcd.hasOne(models.Endereco);
 };
 
-export default Usuario_Pcd;
+export default Usuario_pcd;

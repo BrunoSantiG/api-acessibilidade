@@ -1,5 +1,5 @@
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.bulkInsert('tipo_usuario', [
+  up: (queryInterface, Sequelize) => queryInterface.bulkInsert('tipo_usuarios', [
     {
       tipo: "usuario_pcd",
       created_at: new Date(),
@@ -18,6 +18,6 @@ module.exports = {
 
   ], {}),
 
-  down: (queryInterface, Sequelize) => queryInterface.bulkDelete('tipo_usuario', null, {})
+  down: (queryInterface, Sequelize) => queryInterface.bulkDelete('tipo_usuarios', null, {})
     
 };

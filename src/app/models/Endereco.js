@@ -21,8 +21,8 @@ class Endereco extends Model {
   }
 }
 
-//Endereco.associate = models => {
-//    Endereco.belongsTo(models.Usuario);
+//endereco.associate = models => {
+//    endereco.belongsTo(models.Usuario);
 //};
 
 export default Endereco;

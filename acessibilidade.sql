@@ -106,8 +106,7 @@ ENGINE = InnoDB;
 -- Table usuario_freelancer
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS usuario_freelancer (
-  cpf INT NOT NULL,
-  usuario_freelancercol VARCHAR(45) NULL,
+  cpf VARCHAR(45) NOT NULL,
   id_endereco INT NOT NULL,
   id_usuario INT NOT NULL,
   id_curriculo INT NOT NULL,
@@ -279,7 +278,6 @@ CREATE TABLE IF NOT EXISTS proposta (
   id_proposta INT NOT NULL AUTO_INCREMENT,
   valor DOUBLE NULL,
   mensagem TEXT NULL,
-  propostacol VARCHAR(45) NULL,
   PRIMARY KEY (id_proposta),
   CONSTRAINT fk_usuario_freelancer_has_usuario_empresa_usuario_freelancer1
     FOREIGN KEY (usuario_freelancer_cpf)

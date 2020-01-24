@@ -14,8 +14,4 @@ class Curriculo extends Model {
   }
 }
 
-//Curriculo.associate = models => {
-//    Curriculo.belongsTo(models.Usuario);
-//};
-
 export default Curriculo;

@@ -1,6 +1,6 @@
 import Sequelize, { Model } from "sequelize";
 
-class Usuario_Freelancer extends Model {
+class Usuario_freelancer extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -16,9 +16,9 @@ class Usuario_Freelancer extends Model {
   }
 }
 
-Usuario_Freelancer.associate = models => {
-  Usuario_Freelancer.hasOne(models.Usuario);
-  Usuario_Freelancer.hasOne(models.Endereco);
+Usuario_freelancer.associate = models => {
+  Usuario_freelancer.hasOne(models.Usuario);
+  Usuario_freelancer.hasOne(models.Endereco);
 };
 
-export default Usuario_Freelancer;
+export default Usuario_freelancer;

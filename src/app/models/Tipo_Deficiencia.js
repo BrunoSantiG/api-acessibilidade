@@ -1,6 +1,6 @@
 import Sequelize, { Model } from 'sequelize';
 
-class Tipo_Deficiencia extends Model {
+class Tipo_deficiencia extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -14,8 +14,5 @@ class Tipo_Deficiencia extends Model {
   }
 }
 
-//Tipo_Deficiencia.associate = models => {
-//    Tipo_Deficiencia.belongsTo(models.Usuario);
-//};
 
-export default Tipo_Deficiencia;
+export default Tipo_deficiencia;

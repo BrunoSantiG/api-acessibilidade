@@ -1,27 +1,27 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('proposta', {
+    return queryInterface.createTable('propostas', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
       },
-      usuario_freelancer_cpf: {
-        type: Sequelize.STRING,
+      usuario_freelancer_id: {
+        type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "usuario_freelancer",
-          key: "cpf"
+          model: "usuario_freelancers",
+          key: "id"
         },
         onDelete: "CASCADE"
       },
-      usuario_empresa_cnpj: {
-        type: Sequelize.STRING,
+      usuario_empresa_id: {
+        type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "usuario_empresa",
-          key: "cnpj"
+          model: "usuario_empresas",
+          key: "id"
         },
         onDelete: "CASCADE"
       },
@@ -45,6 +45,6 @@ module.exports = {
 },
 
   down: (queryInterface) => {
-    return queryInterface.dropTable('proposta');
+    return queryInterface.dropTable('propostas');
   }
 };

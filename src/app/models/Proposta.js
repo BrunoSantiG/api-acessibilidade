@@ -18,7 +18,7 @@ class Proposta extends Model {
 }
 Proposta.associate = models => {
   Proposta.hasOne(models.Usuario_Freelancer);
-  Proposta.hasOne(models.Empresa);
+  Proposta.hasOne(models.Usuario_empresa);
 };
 
 export default Proposta;

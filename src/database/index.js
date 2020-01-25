@@ -7,7 +7,7 @@ import Tipo_Deficiencia from "../app/models/Tipo_Deficiencia";
 import Curriculo from "../app/models/Curriculo";
 import Endereco from "../app/models/Endereco";
 import Usuario_Pcd from "../app/models/Usuario_Pcd";
-import Empresa from "../app/models/Empresa";
+import Usuario_Empresa from "../app/models/Usuario_Empresa";
 import Usuario_Freelancer from "../app/models/Usuario_Freelancer";
 import Proposta from "../app/models/Proposta";
 
@@ -18,7 +18,7 @@ const models = [
   Curriculo,
   Endereco,
   Usuario_Pcd,
-  Empresa,
+  Usuario_Empresa,
   Usuario_Freelancer,
   Proposta
 ];

@@ -14,7 +14,7 @@ function generateToken(params = {}){
   return token;
 }
 
-class UsuarioController {
+class UsuarioPcdController {
   async store(req, res) {
     const schemaUsuario = Yup.object().shape({
       nome: Yup.string().required(),
@@ -145,4 +145,4 @@ class UsuarioController {
   }*/
 }
 
-export default new UsuarioController();
+export default new UsuarioPcdController();

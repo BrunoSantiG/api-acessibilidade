@@ -1,17 +1,18 @@
 import { Router } from 'express';
 
-import UsuarioController from './app/controllers/UsuarioController';
+import UsuarioPcdController from './app/controllers/UsuarioPcdController';
 import SessionController from './app/controllers/SessionController';
+import UsuarioFreelancerController from './app/controllers/UsuarioFreelancerController';
 
 import authMiddleware from './app/middlewares/auth';
 
 const routes = new Router();
-routes.post('/users', UsuarioController.store);
+routes.post('/pcd', UsuarioPcdController.store);
 routes.post('/sessions', SessionController.store);
+routes.post('/freelancer', UsuarioFreelancerController.store);
 
 //routes.use(authMiddleware);
 
 //routes.put('/users', UsuarioController.update);
-
 
 export default routes;

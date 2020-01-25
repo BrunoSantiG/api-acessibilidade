@@ -1,50 +1,54 @@
 import jwt from 'jsonwebtoken';
 import * as Yup from 'yup';
 
-import Usuario from '../models/Usuario';
+import Usuario from "../models/Usuario";
 import authConfig from '../../config/auth';
+
+function generateToken(params = {}) {
+  const token = jwt.sign(params, authConfig.secret, {
+    expiresIn: 86400,
+  });
+  return token;
+}
+
 
 class SessionController {
   async store(req, res) {
     const schema = Yup.object().shape({
-      email: Yup.string()
-        .email()
-        .required(),
-      password: Yup.string().required(),
+      usuario: Yup.string().required(),
+      senha: Yup.string().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation fails' });
+      return res.status(400).json({ error: 'Campos não preenchidos corretamente' });
     }
 
-    const { usuario, password } = req.body;
+    const { usuario, senha } = req.body;
 
     const usuarioEmail = await Usuario.findOne({ where: { email: usuario } });
-    const usuarioLogin = await usuario.findOne({ where: { usuario: usuario}})
+    const usuarioLogin = await Usuario.findOne({ where: { usuario: usuario}})
 
     let user = '';
 
     usuarioEmail ? (user = usuarioEmail) : (user=usuarioLogin);
-
+    
     if (!user) {
       return res.status(404).json({ error: 'Usuario Não existe' });
     }
 
-    if (!(await user.checkPassword(password))) {
+    if (!(await user.checkPassword(senha))) {
       return res.status(404).json({ error: 'Senha Invalida' });
     }
 
-    const { id, name } = user;
+    user.senha=undefined;
 
-    return res.json({
-      usuario: {
-        id,
-        name,
-        email,
-      },
-      token: jwt.sign({ id }, authConfig.secret, {
-        expiresIn: authConfig.expiresIn,
-      }),
+
+    return res.status(200).json({
+      user,
+      token: generateToken({
+        id_usuario: user.id,
+        tipo_usuario: user.id_tipo_usuario
+      })
     });
   }
 }

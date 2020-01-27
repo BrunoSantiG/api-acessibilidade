@@ -10,6 +10,7 @@ import Usuario_Pcd from "../app/models/Usuario_Pcd";
 import Usuario_Empresa from "../app/models/Usuario_Empresa";
 import Usuario_Freelancer from "../app/models/Usuario_Freelancer";
 import Proposta from "../app/models/Proposta";
+import Vagas from "../app/models/Vagas";
 
 const models = [
   Tipo_Usuario,
@@ -20,6 +21,7 @@ const models = [
   Usuario_Pcd,
   Usuario_Empresa,
   Usuario_Freelancer,
+  Vagas,
   Proposta
 ];
 

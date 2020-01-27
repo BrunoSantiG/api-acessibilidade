@@ -11,6 +11,9 @@ import Usuario_Empresa from "../app/models/Usuario_Empresa";
 import Usuario_Freelancer from "../app/models/Usuario_Freelancer";
 import Proposta from "../app/models/Proposta";
 import Vagas from "../app/models/Vagas";
+import Experiencias_Empresariais from "../app/models/Experiencias_Empresariais";
+import Experiencias_Academicas from "../app/models/Experiencias_Academicas";
+import Qualificacoes_Adicionais from "../app/models/Experiencias_Academicas";
 
 const models = [
   Tipo_Usuario,
@@ -22,7 +25,10 @@ const models = [
   Usuario_Empresa,
   Usuario_Freelancer,
   Vagas,
-  Proposta
+  Proposta,
+  Experiencias_Empresariais,
+  Experiencias_Academicas,
+  Qualificacoes_Adicionais
 ];
 
 class Database {

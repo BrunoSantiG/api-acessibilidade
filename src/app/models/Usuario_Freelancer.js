@@ -14,11 +14,11 @@ class Usuario_freelancer extends Model {
     );
     return this;
   }
+  static associate (models){
+    this.belongsTo(models.Usuario, {as:"Usuario",foreignKey: 'id_usuario'});
+    this.hasOne(models.Curriculo, {as:"Curriculo",foreignKey: 'id_curriculo'});
+    this.belongsTo(models.Endereco, {as:"Endereco", foreignKey: "id_endereco"});
+  };
 }
-
-Usuario_freelancer.associate = models => {
-  Usuario_freelancer.hasOne(models.Usuario);
-  Usuario_freelancer.hasOne(models.Endereco);
-};
 
 export default Usuario_freelancer;

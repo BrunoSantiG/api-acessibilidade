@@ -14,4 +14,6 @@ class Tipo_usuario extends Model {
   }
 }
 
+
+
 export default Tipo_usuario;

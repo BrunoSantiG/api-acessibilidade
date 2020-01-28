@@ -18,13 +18,15 @@ routes.post('/empresas', UsuarioEmpresaController.store);
 routes.post('/vagas', VagasController.store);
 
 routes.get('/empresas', UsuarioEmpresaController.index);
+
 routes.get('/usuario/usuarioExiste/:usuario', UsuarioController.UsuarioExists);
 routes.get('/usuario/emailExiste/:email', UsuarioController.EmailExists);
 routes.get('/tipoDeficiencia', TipoDeficienciaController.listAll);
 
 
-//routes.use(authMiddleware);
-
+routes.use(authMiddleware);
+routes.get('/pcd/:usuario', UsuarioPcdController.show);
+routes.get('/pcd', UsuarioPcdController.index);
 //routes.put('/users', UsuarioController.update);
 
 export default routes;

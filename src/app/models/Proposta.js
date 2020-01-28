@@ -15,10 +15,11 @@ class Proposta extends Model {
     );
     return this;
   }
+  static associate (models){
+    this.hasOne(models.Usuario_freelancer,{as:"Usuario_freelancer",foreignKey: 'usuario_freelancer_id'});
+    this.hasOne(models.Usuario_empresa,{as:"Usuario_empresa",foreignKey: 'usuario_empresa_id'});
+  };
 }
-Proposta.associate = models => {
-  Proposta.hasOne(models.Usuario_Freelancer);
-  Proposta.hasOne(models.Usuario_empresa);
-};
+
 
 export default Proposta;

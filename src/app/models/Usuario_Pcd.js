@@ -1,3 +1,4 @@
+
 import Sequelize, { Model } from "sequelize";
 
 class Usuario_pcd extends Model {
@@ -8,10 +9,7 @@ class Usuario_pcd extends Model {
         dt_nascimento: Sequelize.STRING,
         laudo_verificado: Sequelize.STRING,
         laudo_url: Sequelize.STRING,
-        id_tipo_deficiencia: Sequelize.INTEGER,
-        id_usuario: Sequelize.INTEGER,
         id_curriculo: Sequelize.INTEGER,
-        id_endereco: Sequelize.INTEGER
       },
       {
         sequelize
@@ -19,13 +17,14 @@ class Usuario_pcd extends Model {
     );
     return this;
   }
+  static associate (models){
+    this.belongsTo(models.Tipo_deficiencia, {as:"Tipo_Deficiencia",foreignKey: 'id_tipo_deficiencia'});
+    this.belongsTo(models.Usuario, {as:"Usuario",foreignKey: 'id_usuario'});
+    this.belongsTo(models.Curriculo, {as:"Curriculo",foreignKey: 'id_curriculo'});
+    this.belongsTo(models.Endereco, {as:"Endereco", foreignKey: "id_endereco"});
+  };
 }
 
-Usuario_pcd.associate = models => {
-  Usuario_pcd.hasOne(models.Tipo_Deficiencia);
-  Usuario_pcd.hasOne(models.Usuario);
-  Usuario_pcd.hasOne(models.Curriculo);
-  Usuario_pcd.hasOne(models.Endereco);
-};
+
 
 export default Usuario_pcd;

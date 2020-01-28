@@ -18,8 +18,8 @@ class Usuario_empresa extends Model {
 }
 
 Usuario_empresa.associate = models => {
-  Usuario_empresa.hasOne(models.Endereco);
-  Usuario_empresa.hasOne(models.Usuario);
+  Usuario_empresa.belongsTo(models.Endereco);
+  Usuario_empresa.belongsTo(models.Usuario);
 };
 
 export default Usuario_empresa;

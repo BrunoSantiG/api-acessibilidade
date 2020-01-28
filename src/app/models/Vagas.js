@@ -16,9 +16,11 @@ class Vagas extends Model {
     );
     return this;
   }
-}
-Vagas.associate = models => {
-    Vagas.hasOne(models.Usuario_Empresa);
+
+  static associate(models) {
+    this.hasOne(models.Usuario_empresa, {as:"Usuario_empresa",foreignKey: 'usuario_empresa_id'});
 };
+}
+
 
 export default Vagas;

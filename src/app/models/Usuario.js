@@ -27,10 +27,14 @@ class Usuario extends Model {
   checkPassword(senha) {
     return bcrypt.compare(senha, this.senha);
   }
+
+  static associate(models){
+    this.hasOne(models.Tipo_usuario, {foreignKey: 'id_tipo_usuario',as:"Tipo_Usuario"});
+    //this.belongsTo(models.Usuario_pcd, {as:"Usuario_Pcd", onDelete: "cascade"})
+  };
+  
+
 }
 
-Usuario.associate = models => {
-  Usuario.hasOne(models.Tipo_Usuario);
-};
 
 export default Usuario;

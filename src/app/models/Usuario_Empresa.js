@@ -6,8 +6,8 @@ class Usuario_empresa extends Model {
       {
         cnpj: Sequelize.STRING,
         razao_social: Sequelize.STRING,
-        id_endereco: Sequelize.INTEGER,
-        id_usuario: Sequelize.INTEGER
+        telefone_fixo:Sequelize.INTEGER,
+        telefone_celular:Sequelize.INTEGER,
       },
       {
         sequelize
@@ -15,11 +15,12 @@ class Usuario_empresa extends Model {
     );
     return this;
   }
+  static associate = models => {
+    this.belongsTo(models.Usuario, {as:"Usuario",foreignKey: 'id_usuario'});
+      this.belongsTo(models.Endereco, {as:"Endereco", foreignKey: "id_endereco"});
+  };
 }
 
-Usuario_empresa.associate = models => {
-  Usuario_empresa.belongsTo(models.Endereco);
-  Usuario_empresa.belongsTo(models.Usuario);
-};
+
 
 export default Usuario_empresa;

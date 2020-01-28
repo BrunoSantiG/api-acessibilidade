@@ -39,6 +39,8 @@ class UsuarioEmpresaController {
     const schemaUsuarioEmpresa = Yup.object().shape({
       cnpj: Yup.string().required(),
       razao_social: Yup.string().required(),
+      telefone_fixo:Yup.number(),
+      telefone_celular:Yup.number(),
     });
 
     if (!(await schemaUsuario.isValid(req.body.usuario))) {
@@ -53,19 +55,13 @@ class UsuarioEmpresaController {
       return res.status(400).json({ error: "Campo usuario_empresa não esta de acordo" });
     }
 
-    console.log("1");
-
     const emailExists = await Usuario.findOne({
       where: { email: req.body.usuario.email },
     });
 
-    console.log("2");
-
     const usuarioExists = await Usuario.findOne({
       where: { usuario: req.body.usuario.usuario },
     });
-
-    console.log("3");
 
     if (usuarioExists) {
       return res.status(400).json({ error: "Usuario ja existe." });
@@ -73,27 +69,26 @@ class UsuarioEmpresaController {
       return res.status(400).json({ error: "Email ja esta em uso." });
     }
 
-    const user = await Usuario.create(req.body.usuario);
-
-    user.senha = undefined;
-
-    const endereco = await Endereco.create(req.body.endereco);
-
-    const usuario_empresa = await Usuario_Empresa.create({
+    await Usuario_Empresa.create({
       cnpj: req.body.usuario_empresa.cnpj,
       razao_social: req.body.usuario_empresa.razao_social,
-      id_usuario: user.id,
-      id_endereco: endereco.id,
+      telefone_fixo: req.body.usuario_empresa.telefone_fixo,
+      telefone_celular: req.body.usuario_empresa.telefone_celular,
+      Usuario:req.body.usuario,
+      Endereco:req.body.endereco,
+    }, {
+      include: [
+        {model: Usuario,as: 'Usuario'},
+        {model: Endereco, as: "Endereco"}],
+    }).then((usuario_empresa) => {
+      usuario_empresa.Usuario.senha=undefined;
+      return res.status(201).json({
+        usuario:usuario_empresa.Usuario,
+      })
+    }).catch((err)=>{
+      console.log("ERRO: "+err)
     });
 
-    return res.status(201).json({
-      user,
-      token: generateToken({
-        id_usuario: user.id,
-        usuario_empresa_id: usuario_empresa.id,
-        tipo_usuario: user.id_tipo_usuario
-      })
-    });
   }
 
   async index(req, res) {

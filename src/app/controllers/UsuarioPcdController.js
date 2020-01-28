@@ -39,6 +39,8 @@ class UsuarioPcdController {
 
     const schemaUsuarioPcd = Yup.object().shape({
       rg: Yup.string().required(),
+      telefone_fixo:Yup.number(),
+      telefone_celular:Yup.number(),
       dt_nascimento: Yup.string().required(),
       laudo_url: Yup.string(),
       id_tipo_deficiencia: Yup.string().required(),
@@ -74,6 +76,8 @@ class UsuarioPcdController {
 
     await Usuario_Pcd.create({
       rg: req.body.usuario_pcd.rg,
+      telefone_fixo: req.body.usuario_pcd.telefone_fixo,
+      telefone_celular: req.body.usuario_pcd.telefone_celular,
       dt_nascimento: req.body.usuario_pcd.dt_nascimento,
       laudo_url: req.body.usuario_pcd.laudo_url,
       id_tipo_deficiencia: req.body.usuario_pcd.id_tipo_deficiencia,

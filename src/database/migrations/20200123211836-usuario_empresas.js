@@ -16,6 +16,16 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      telefone_fixo:{
+        type: Sequelize.INTEGER,
+        allowNull:true,
+        unique:true,
+      },
+      telefone_celular:{
+        type: Sequelize.INTEGER,
+        allowNull:true,
+        unique:true,
+      },
       id_endereco: {
         type: Sequelize.INTEGER,
         allowNull: false,

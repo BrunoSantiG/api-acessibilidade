@@ -25,8 +25,9 @@ routes.get('/tipoDeficiencia', TipoDeficienciaController.listAll);
 
 
 routes.use(authMiddleware);
-routes.get('/pcd/:usuario', UsuarioPcdController.show);
+routes.get('/pcd/usuario/:usuario', UsuarioPcdController.showByUsuario);
+routes.get('/pcd/id/:id', UsuarioPcdController.showById);
 routes.get('/pcd', UsuarioPcdController.index);
-//routes.put('/users', UsuarioController.update);
+routes.put('/pcd', UsuarioPcdController.update);
 
 export default routes;

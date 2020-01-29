@@ -9,6 +9,7 @@ class Vagas extends Model {
         descricao: Sequelize.TEXT,
         quantidade_vagas: Sequelize.INTEGER,
         usuario_empresa_id: Sequelize.INTEGER,
+        id_endereco: Sequelize.INTEGER,
       },
       {
         sequelize,
@@ -18,7 +19,8 @@ class Vagas extends Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.Usuario_empresa, {as:"Usuario_empresa",foreignKey: 'usuario_empresa_id'});
+    this.belongsTo(models.Usuario_empresa, {as:"Usuario_Empresa", foreignKey: "usuario_empresa_id"});
+    this.belongsTo(models.Endereco, {as:"Endereco", foreignKey: "id_endereco"});
 };
 }
 

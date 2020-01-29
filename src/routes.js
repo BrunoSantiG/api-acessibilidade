@@ -22,7 +22,12 @@ routes.post('/vagas', VagasController.store);
 routes.get('/usuario/usuarioExiste/:usuario', UsuarioController.UsuarioExists);
 routes.get('/usuario/emailExiste/:email', UsuarioController.EmailExists);
 routes.get('/tipoDeficiencia', TipoDeficienciaController.listAll);
+routes.get('/vagas', VagasController.index);
+routes.get('/vagas/:id', VagasController.showById);
+routes.get('/vagas/empresa/:id', VagasController.showByEmpresas);
 
+routes.delete('/vagas/:id', VagasController.delete);
+routes.put('/vagas/:id', VagasController.update);
 
 routes.use(authMiddleware);
 routes.put("/empresas", UsuarioEmpresaController.update);

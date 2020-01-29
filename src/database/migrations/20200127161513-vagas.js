@@ -33,6 +33,15 @@ module.exports = {
         },
         onDelete: "CASCADE"
       },
+      id_endereco: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'enderecos',
+          key: 'id', 
+        },
+        onDelete:'CASCADE',
+      },
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,

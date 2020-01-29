@@ -15,9 +15,9 @@ class Usuario_empresa extends Model {
     );
     return this;
   }
-  static associate = models => {
+  static associate(models){
     this.belongsTo(models.Usuario, {as:"Usuario",foreignKey: 'id_usuario'});
-      this.belongsTo(models.Endereco, {as:"Endereco", foreignKey: "id_endereco"});
+    this.belongsTo(models.Endereco, {as:"Endereco", foreignKey: "id_endereco"});
   };
 }
 

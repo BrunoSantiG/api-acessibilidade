@@ -16,8 +16,8 @@ class Proposta extends Model {
     return this;
   }
   static associate (models){
-    this.hasOne(models.Usuario_freelancer,{as:"Usuario_freelancer",foreignKey: 'usuario_freelancer_id'});
-    this.hasOne(models.Usuario_empresa,{as:"Usuario_empresa",foreignKey: 'usuario_empresa_id'});
+    this.belongsTo(models.Usuario_freelancer,{as:"Usuario_freelancer",foreignKey: 'usuario_freelancer_id'});
+    this.belongsTo(models.Usuario_empresa,{as:"Usuario_empresa",foreignKey: 'usuario_empresa_id'});
   };
 }
 

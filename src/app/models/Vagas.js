@@ -18,7 +18,7 @@ class Vagas extends Model {
   }
 
   static associate(models) {
-    this.hasOne(models.Usuario_empresa, {as:"Usuario_empresa",foreignKey: 'usuario_empresa_id'});
+    this.belongsTo(models.Usuario_empresa, {as:"Usuario_empresa",foreignKey: 'usuario_empresa_id'});
 };
 }
 

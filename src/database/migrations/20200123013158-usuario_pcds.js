@@ -12,6 +12,16 @@ module.exports = {
         allowNull:false,
         unique:true,
       },
+      telefone_fixo:{
+        type: Sequelize.INTEGER,
+        allowNull:true,
+        unique:true,
+      },
+      telefone_celular:{
+        type: Sequelize.INTEGER,
+        allowNull:true,
+        unique:true,
+      },
       dt_nascimento: {
         type: Sequelize.DATE,
         allowNull: false,

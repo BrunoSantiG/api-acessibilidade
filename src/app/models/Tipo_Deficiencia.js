@@ -15,4 +15,5 @@ class Tipo_deficiencia extends Model {
 }
 
 
+
 export default Tipo_deficiencia;

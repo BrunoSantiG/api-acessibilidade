@@ -1,6 +1,7 @@
 import * as Yup from "yup";
 import jwt from 'jsonwebtoken';
 import Usuario from "../models/Usuario";
+import Curriculo from "../models/Curriculo";
 import Usuario_Freelancer from "../models/Usuario_Freelancer";
 import Endereco from "../models/Endereco";
 import authConfig from '../../config/auth';
@@ -38,6 +39,9 @@ function generateToken(params = {}){
 
       const schemaUsuarioFreelancer = Yup.object().shape({
         cpf: Yup.string().required(),
+        telefone_fixo:Yup.number(),
+        telefone_celular:Yup.number(),
+        dt_nascimento: Yup.string().required(),
       });
 
       if (!(await schemaUsuario.isValid(req.body.usuario))) {
@@ -52,19 +56,13 @@ function generateToken(params = {}){
         return res.status(400).json({ error: "Campo usuario_freelancer não esta de acordo" });
       }
   
-      console.log("1");
-  
       const emailExists = await Usuario.findOne({
         where: {email: req.body.usuario.email},
       });
   
-      console.log("2");
-  
       const usuarioExists = await Usuario.findOne({
         where: {usuario: req.body.usuario.usuario},
       });
-  
-      console.log("3");
       
   
       if (usuarioExists) {
@@ -73,18 +71,28 @@ function generateToken(params = {}){
         return res.status(400).json({ error: "Email ja esta em uso." });
       }
 
-    const user = await Usuario.create(req.body.usuario);
-    user.senha=undefined;
-    const endereco = await Endereco.create(req.body.endereco);
-    const usuario_freelancer = await Usuario_Freelancer.create({
+    await Usuario_Freelancer.create({
       cpf: req.body.usuario_freelancer.cpf,
-      id_usuario: user.id,
-      id_endereco: endereco.id,
-    });
-
-    return res.status(201).json({
-        user,
-        token:generateToken({id_usuario:user.id,usuario_freelancer_id:usuario_freelancer.id,tipo_usuario:user.id_tipo_usuario})
+      telefone_fixo: req.body.usuario_freelancer.telefone_fixo,
+      telefone_celular: req.body.usuario_freelancer.telefone_celular,
+      dt_nascimento: req.body.usuario_freelancer.dt_nascimento,
+      Usuario:req.body.usuario,
+      Curriculo:{
+        "objetivo": "",
+      },
+      Endereco:req.body.endereco,
+    }, {
+      include: [
+        {model: Usuario,as: 'Usuario'},
+        {model: Curriculo, as: "Curriculo"},
+        {model: Endereco, as: "Endereco"}],
+    }).then((usuario_freelancer) => {
+      usuario_freelancer.Usuario.senha=undefined;
+      return res.status(201).json({
+        usuario:usuario_freelancer.Usuario,
+      })
+    }).catch((err)=>{
+      console.log("ERRO: "+err)
     });
   }
 }

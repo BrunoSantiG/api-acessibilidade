@@ -12,6 +12,29 @@ module.exports = {
         allowNull: false,
         unique: true
       },
+      telefone_fixo:{
+        type: Sequelize.INTEGER,
+        allowNull:true,
+        unique:true,
+      },
+      telefone_celular:{
+        type: Sequelize.INTEGER,
+        allowNull:true,
+        unique:true,
+      },
+      dt_nascimento: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      id_curriculo: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "curriculos",
+          key: "id"
+        },
+        onDelete: "CASCADE"
+      },
       id_endereco: {
         type: Sequelize.INTEGER,
         allowNull: false,

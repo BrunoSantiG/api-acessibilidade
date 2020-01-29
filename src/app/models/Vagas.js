@@ -8,7 +8,7 @@ class Vagas extends Model {
         titulo: Sequelize.STRING,
         descricao: Sequelize.TEXT,
         quantidade_vagas: Sequelize.INTEGER,
-        usuario_empresa_id: Sequelize.INTEGER,
+        id_usuario_empresa: Sequelize.INTEGER,
         id_endereco: Sequelize.INTEGER,
       },
       {
@@ -19,10 +19,9 @@ class Vagas extends Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.Usuario_empresa, {as:"Usuario_Empresa", foreignKey: "usuario_empresa_id"});
-    this.belongsTo(models.Endereco, {as:"Endereco", foreignKey: "id_endereco"});
+    this.belongsTo(models.Usuario_empresa, {as:"Usuario_Empresa", foreignKey: "id_usuario_empresa"});
+    this.belongsTo(models.Endereco, {as:"Endereco", foreignKey: "id_endereco", onDelete: 'CASCADE', hooks: true});
 };
 }
-
 
 export default Vagas;

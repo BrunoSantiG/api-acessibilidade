@@ -24,14 +24,13 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false
       },
-      usuario_empresa_id: {
+      id_usuario_empresa: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: "usuario_empresas",
           key: "id"
-        },
-        onDelete: "CASCADE"
+        }
       },
       id_endereco: {
         type: Sequelize.INTEGER,
@@ -41,6 +40,7 @@ module.exports = {
           key: 'id', 
         },
         onDelete:'CASCADE',
+        onUpdate: "CASCADE",
       },
       created_at: {
         type: Sequelize.DATE,

@@ -1,6 +1,5 @@
 import Sequelize from "sequelize";
 
-import databaseConfig from "../config/database";
 import Tipo_Usuario from "../app/models/Tipo_Usuario";
 import Usuario from "../app/models/Usuario";
 import Tipo_Deficiencia from "../app/models/Tipo_Deficiencia";
@@ -14,6 +13,7 @@ import Vagas from "../app/models/Vagas";
 import Experiencias_Empresariais from "../app/models/Experiencias_Empresariais";
 import Experiencias_Academicas from "../app/models/Experiencias_Academicas";
 import Qualificacoes_Adicionais from "../app/models/Experiencias_Academicas";
+require('dotenv').config();
 
 const models = [
   Tipo_Usuario,
@@ -38,7 +38,14 @@ class Database {
 
   init() {
     
-    this.connection = new Sequelize(databaseConfig);
+    this.connection = new Sequelize(process.env.DATABASE_URL,{
+      dialect: 'postgres',
+      define: {
+        timestamps: true,
+        underscored: true,
+        underscoredAll: true,
+      },
+    });
     
 
     models

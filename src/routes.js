@@ -36,6 +36,10 @@ routes.get('/pcd/usuario/:usuario', UsuarioPcdController.showByUsuario);
 routes.get('/pcd/id/:id', UsuarioPcdController.showById);
 routes.get('/pcd', UsuarioPcdController.index);
 routes.put('/pcd', UsuarioPcdController.update);
+routes.get('/freelancer/usuario/:usuario', UsuarioFreelancerController.showByUsuario);
+routes.get('/freelancer/:id', UsuarioFreelancerController.showById);
+routes.get('/freelancer', UsuarioFreelancerController.index);
+routes.put('/freelancer', UsuarioFreelancerController.update);
 routes.patch('/usuario', UsuarioController.updateSenha);
 
 export default routes;

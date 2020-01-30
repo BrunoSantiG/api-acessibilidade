@@ -12,7 +12,7 @@ import authMiddleware from './app/middlewares/auth';
 
 const routes = new Router();
 routes.get('/',(req,res)=>{
-    console.log("deu certo")
+    return res.status(200).json( "tudo certo" );
 });
 routes.post('/pcd', UsuarioPcdController.store);
 routes.post('/sessions', SessionController.store);

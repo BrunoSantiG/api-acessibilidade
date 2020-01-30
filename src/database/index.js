@@ -39,7 +39,7 @@ class Database {
 
   init() {
     
-    this.connection = new Sequelize(databaseConfig,{
+    this.connection = new Sequelize(process.env.DATABASE_URL,{
       dialect: 'postgres',
       define: {
         timestamps: true,

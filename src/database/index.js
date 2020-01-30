@@ -14,6 +14,7 @@ import Vagas from "../app/models/Vagas";
 import Experiencias_Empresariais from "../app/models/Experiencias_Empresariais";
 import Experiencias_Academicas from "../app/models/Experiencias_Academicas";
 import Qualificacoes_Adicionais from "../app/models/Experiencias_Academicas";
+require('dotenv').config()
 
 const models = [
   Tipo_Usuario,

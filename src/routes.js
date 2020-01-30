@@ -11,7 +11,9 @@ import VagasController from './app/controllers/VagasController';
 import authMiddleware from './app/middlewares/auth';
 
 const routes = new Router();
-
+routes.get('/',(req,res)=>{
+    console.log("deu certo")
+});
 routes.post('/pcd', UsuarioPcdController.store);
 routes.post('/sessions', SessionController.store);
 routes.post('/freelancer', UsuarioFreelancerController.store);

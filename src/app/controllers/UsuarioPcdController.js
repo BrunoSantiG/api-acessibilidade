@@ -5,10 +5,7 @@ import Endereco from "../models/Endereco";
 import Curriculo from "../models/Curriculo";
 import jwt from 'jsonwebtoken';
 import authConfig from '../../config/auth';
-import { Router } from 'express';
-import authMiddleware from '../middlewares/auth';
-const routes = new Router();
-
+import bcrypt from 'bcryptjs';
 
 function generateToken(params = {}){
   const token = jwt.sign(params,authConfig.secret,{
@@ -16,6 +13,14 @@ function generateToken(params = {}){
   });
   return token;
 }
+
+
+
+function cryptPass(senha){
+  if (senha) {
+    return bcrypt.hash(senha, 10);
+  }
+};
 
 class UsuarioPcdController {
   async store(req, res) {
@@ -45,7 +50,7 @@ class UsuarioPcdController {
       rg: Yup.string().required(),
       telefone_fixo:Yup.number(),
       telefone_celular:Yup.number(),
-      dt_nascimento: Yup.date()().required(),
+      dt_nascimento: Yup.date().required(),
       laudo_url: Yup.string(),
       id_tipo_deficiencia: Yup.string().required(),
     });
@@ -69,6 +74,8 @@ class UsuarioPcdController {
     const usuarioExists = await Usuario.findOne({
       where: {usuario: req.body.usuario.usuario},
     });
+
+    req.body.usuario.senha = await cryptPass(req.body.usuario.senha);
     
 
     if (usuarioExists) {
@@ -113,8 +120,9 @@ class UsuarioPcdController {
   async showByUsuario(req, res){
     const usuario = await Usuario.findOne({where :{usuario : req.params.usuario}})
     await Usuario_Pcd.findOne({ where: {id_usuario: usuario.id},
-      include:[{model:Endereco, as: "Endereco"}]}).then((usuario_pcd) =>{
-      return res.status(201).json({
+      include:[{model: Usuario,as: 'Usuario'},{model:Endereco, as: "Endereco"}]}).then((usuario_pcd) =>{
+        usuario_pcd.Usuario.senha=undefined;
+        return res.status(201).json({
         usuario_pcd,
     });
     }).catch((err)=>{
@@ -124,12 +132,15 @@ class UsuarioPcdController {
 
   async showById(req, res){
     await Usuario_Pcd.findOne({ where: {id_usuario: req.params.id},
-      include:[{model:Endereco, as: "Endereco"}]}).then((usuario_pcd) =>{
-      return res.status(201).json({
+      include:[{model: Usuario,as: 'Usuario'},{model:Endereco, as: "Endereco"}]}).then((usuario_pcd) =>{
+        usuario_pcd.Usuario.senha=undefined;
+        return res.status(201).json({
         usuario_pcd,
     });
     }).catch((err)=>{
-      console.log("ERRO: "+err)
+      return res.status(500).json({
+        error: "Erro no servidor." 
+     })
     })
   }
 
@@ -139,12 +150,13 @@ class UsuarioPcdController {
         usuario,
     });
     }).catch((err)=>{
-      console.log("ERRO: "+err)
+      return res.status(500).json({
+        error: "Erro no servidor." 
+     })
     })
   }
 
   async update(req, res){
-    routes.use(authMiddleware);
     const schemaUsuario = Yup.object().shape({
       nome: Yup.string().required(),
       usuario: Yup.string().required(),
@@ -192,10 +204,10 @@ class UsuarioPcdController {
     const usuarioExists = await Usuario.findOne({
       where: {usuario: req.body.usuario.usuario},
     });
-
-    if (usuarioExists) {
+    
+    if (usuarioExists && usuarioExists.id != req.id_usuario) {
       return res.status(200).json({ error: "Usuario ja existe." });
-    }else if(emailExists){
+    }else if(emailExists && emailExists.id != req.id_usuario){
       return res.status(200).json({ error: "Email ja esta em uso." });
     }
 
@@ -211,14 +223,7 @@ class UsuarioPcdController {
       if(usuario_pcd){
         const update_usuario = await usuario_pcd.Usuario.update(req.body.usuario);
         const update_endereco = await usuario_pcd.Endereco.update(req.body.endereco);
-        const update_usuario_pcd = await usuario_pcd.update({
-          rg: req.body.usuario_pcd.rg,
-          telefone_fixo: req.body.usuario_pcd.telefone_fixo,
-          telefone_celular: req.body.usuario_pcd.telefone_celular,
-          dt_nascimento: req.body.usuario_pcd.dt_nascimento,
-          laudo_url: req.body.usuario_pcd.laudo_url,
-          id_tipo_deficiencia: req.body.usuario_pcd.id_tipo_deficiencia
-        })
+        const update_usuario_pcd = await usuario_pcd.update(req.body.usuario_pcd)
         update_usuario.senha = undefined;
         return res.status(201).json({
           usuario:update_usuario
@@ -230,7 +235,9 @@ class UsuarioPcdController {
         })
       }
     }).catch((err) => {
-      console.log(err);
+      return res.status(500).json({
+        error: "Erro no servidor." 
+     })
     })
   }
 

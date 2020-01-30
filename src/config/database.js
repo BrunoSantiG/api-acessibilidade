@@ -1,3 +1,12 @@
 module.exports = {
-  URL:process.env.DATABASE_URL
+  dialect: 'postgres',
+  host: 'localhost',
+  username: 'postgres',
+  password: 'admin',
+  database: 'db_acessibilidade',
+  define: {
+    timestamps: true,
+    underscored: true,
+    underscoredAll: true,
+  },
 };

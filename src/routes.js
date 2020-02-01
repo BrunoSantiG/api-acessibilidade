@@ -7,6 +7,7 @@ import UsuarioFreelancerController from './app/controllers/UsuarioFreelancerCont
 import UsuarioEmpresaController from './app/controllers/UsuarioEmpresaController';
 import TipoDeficienciaController from './app/controllers/TipoDeficienciaController';
 import VagasController from './app/controllers/VagasController';
+import CandidatoController from './app/controllers/CandidatoController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -43,5 +44,10 @@ routes.get('/freelancer/:id', UsuarioFreelancerController.showById);
 routes.get('/freelancer', UsuarioFreelancerController.index);
 routes.put('/freelancer', UsuarioFreelancerController.update);
 routes.patch('/usuario', UsuarioController.updateSenha);
+
+routes.post('/candidato', CandidatoController.store);
+routes.get('/candidato', CandidatoController.showByUsuario);
+routes.get('/candidato/:vaga', CandidatoController.showByVaga);
+routes.delete('/candidato', CandidatoController.delete);
 
 export default routes;

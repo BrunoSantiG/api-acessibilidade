@@ -8,6 +8,7 @@ import UsuarioEmpresaController from './app/controllers/UsuarioEmpresaController
 import TipoDeficienciaController from './app/controllers/TipoDeficienciaController';
 import VagasController from './app/controllers/VagasController';
 import CandidatoController from './app/controllers/CandidatoController';
+import CurriculoController from "./app/controllers/CurriculoController";
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -33,6 +34,13 @@ routes.delete('/vagas/:id', VagasController.delete);
 routes.put('/vagas/:id', VagasController.update);
 
 routes.use(authMiddleware);
+routes.delete("/curriculos/:id", CurriculoController.delete);
+
+routes.put("/pcd/:pcd_id/curriculos", CurriculoController.update);
+routes.put("/freelancer/:freelancer_id/curriculos", CurriculoController.update);
+
+routes.get("/curriculos/:id", CurriculoController.index);
+routes.get("/pcd/:freelancer_id/curriculos", CurriculoController.index);
 routes.put("/empresas", UsuarioEmpresaController.update);
 routes.get('/empresas', UsuarioEmpresaController.index);
 routes.get('/pcd/usuario/:usuario', UsuarioPcdController.showByUsuario);

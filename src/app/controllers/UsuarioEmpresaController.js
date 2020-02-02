@@ -44,15 +44,15 @@ class UsuarioEmpresaController {
     });
 
     if (!(await schemaUsuario.isValid(req.body.usuario))) {
-      return res.status(400).json({ error: "Campo usuario não esta de acordo" });
+      return res.status(200).json({ error: "Campo usuario não esta de acordo" });
     }
 
     if (!(await schemaEndereco.isValid(req.body.endereco))) {
-      return res.status(400).json({ error: "Campo endereco não esta de acordo" });
+      return res.status(200).json({ error: "Campo endereco não esta de acordo" });
     }
 
     if (!(await schemaUsuarioEmpresa.isValid(req.body.usuario_empresa))) {
-      return res.status(400).json({ error: "Campo usuario_empresa não esta de acordo" });
+      return res.status(200).json({ error: "Campo usuario_empresa não esta de acordo" });
     }
 
     const emailExists = await Usuario.findOne({
@@ -64,9 +64,9 @@ class UsuarioEmpresaController {
     });
 
     if (usuarioExists) {
-      return res.status(400).json({ error: "Usuario ja existe." });
+      return res.status(200).json({ error: "Usuario ja existe." });
     } else if (emailExists) {
-      return res.status(400).json({ error: "Email ja esta em uso." });
+      return res.status(200).json({ error: "Email ja esta em uso." });
     }
 
     await Usuario_Empresa.create({

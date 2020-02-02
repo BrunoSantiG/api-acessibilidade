@@ -15,6 +15,13 @@ class Experiencias_academicas extends Model {
     );
     return this;
   }
+
+  static associate(models) {
+    this.belongsTo(models.Curriculo, {
+      foreignKey: "id_curriculo",
+      as: "curriculo_acads"
+    });
+  }
 }
 
 export default Experiencias_academicas;

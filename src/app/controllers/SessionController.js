@@ -20,7 +20,7 @@ class SessionController {
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Campos não preenchidos corretamente' });
+      return res.status(200).json({ error: 'Campos não preenchidos corretamente' });
     }
 
     const { usuario, senha } = req.body;
@@ -33,11 +33,11 @@ class SessionController {
     usuarioEmail ? (user = usuarioEmail) : (user=usuarioLogin);
     
     if (!user) {
-      return res.status(404).json({ error: 'Usuario Não existe' });
+      return res.status(200).json({ error: 'Usuario Não existe' });
     }
 
     if (!(await user.checkPassword(senha))) {
-      return res.status(404).json({ error: 'Senha Invalida' });
+      return res.status(200).json({ error: 'Senha Invalida' });
     }
 
     user.senha=undefined;

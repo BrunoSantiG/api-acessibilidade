@@ -13,7 +13,7 @@ import Proposta from "../app/models/Proposta";
 import Vagas from "../app/models/Vagas";
 import Experiencias_Empresariais from "../app/models/Experiencias_Empresariais";
 import Experiencias_Academicas from "../app/models/Experiencias_Academicas";
-import Qualificacoes_Adicionais from "../app/models/Experiencias_Academicas";
+import Qualificacoes_Adicionais from "../app/models/Qualificacoes_Adicionais";
 import Candidato from "../app/models/Candidato";
 require('dotenv').config()
 

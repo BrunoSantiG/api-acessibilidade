@@ -26,14 +26,6 @@ class Curriculo extends Model {
       foreignKey: "id_curriculo",
       as: "curriculo_quals"
     });
-    this.hasOne(models.Usuario_pcd, {
-      foreignKey: "id_curriculo",
-      as: "curriculo_pcds"
-    });
-    this.hasOne(models.Usuario_freelancer, {
-      foreignKey: "id_curriculo",
-      as: "curriculo_frelas"
-    });
   }
 }
 

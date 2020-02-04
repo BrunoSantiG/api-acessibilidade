@@ -55,15 +55,15 @@ function generateToken(params = {}){
       });
 
       if (!(await schemaUsuario.isValid(req.body.usuario))) {
-        return res.status(400).json({ error: "Campo usuario não esta de acordo" });
+        return res.status(200).json({ error: "Campo usuario não esta de acordo" });
       }
   
       if (!(await schemaEndereco.isValid(req.body.endereco))) {
-        return res.status(400).json({ error: "Campo endereco não esta de acordo" });
+        return res.status(200).json({ error: "Campo endereco não esta de acordo" });
       }
   
       if (!(await schemaUsuarioFreelancer.isValid(req.body.usuario_freelancer))) {
-        return res.status(400).json({ error: "Campo usuario_freelancer não esta de acordo" });
+        return res.status(200).json({ error: "Campo usuario_freelancer não esta de acordo" });
       }
   
       const emailExists = await Usuario.findOne({
@@ -77,9 +77,9 @@ function generateToken(params = {}){
       req.body.usuario.senha = await cryptPass(req.body.usuario.senha);
   
       if (usuarioExists) {
-        return res.status(400).json({ error: "Usuario ja existe." });
+        return res.status(200).json({ error: "Usuario ja existe." });
       }else if(emailExists){
-        return res.status(400).json({ error: "Email ja esta em uso." });
+        return res.status(200).json({ error: "Email ja esta em uso." });
       }
 
     await Usuario_Freelancer.create({
@@ -115,9 +115,11 @@ function generateToken(params = {}){
     await Usuario_Freelancer.findAll({include:[{model:Endereco, as: "Endereco"}]}).then((usuario) =>{
       return res.status(201).json({
         usuario,
-    });
+      });
     }).catch((err)=>{
-      console.log("ERRO: "+err)
+      return res.status(500).json({
+        error: "Erro no servidor." 
+     })
     })
   }
 
@@ -138,9 +140,11 @@ function generateToken(params = {}){
       include:[{model:Endereco, as: "Endereco"}]}).then((usuario_freelancer) =>{
       return res.status(201).json({
         usuario_freelancer,
-    });
+      });
     }).catch((err)=>{
-      console.log("ERRO: "+err)
+      return res.status(500).json({
+        error: "Erro no servidor." 
+     })
     })
   }
 
@@ -173,15 +177,15 @@ function generateToken(params = {}){
     });
 
     if (!(await schemaUsuario.isValid(req.body.usuario))) {
-      return res.status(400).json({ error: "Campo usuario não esta de acordo" });
+      return res.status(200).json({ error: "Campo usuario não esta de acordo" });
     }
 
     if (!(await schemaEndereco.isValid(req.body.endereco))) {
-      return res.status(400).json({ error: "Campo endereco não esta de acordo" });
+      return res.status(200).json({ error: "Campo endereco não esta de acordo" });
     }
 
     if (!(await schemaUsuarioFreelancer.isValid(req.body.usuario_freelancer))) {
-      return res.status(400).json({ error: "Campo usuario_freelancer não esta de acordo" });
+      return res.status(200).json({ error: "Campo usuario_freelancer não esta de acordo" });
     }
 
     const emailExists = await Usuario.findOne({
@@ -194,9 +198,9 @@ function generateToken(params = {}){
     
 
     if (usuarioExists) {
-      return res.status(400).json({ error: "Usuario ja existe." });
+      return res.status(200).json({ error: "Usuario ja existe." });
     }else if(emailExists){
-      return res.status(400).json({ error: "Email ja esta em uso." });
+      return res.status(200).json({ error: "Email ja esta em uso." });
     }
 
     const filtro = {

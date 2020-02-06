@@ -77,32 +77,44 @@ class VagasController {
   }
 
   async indexByQuery(req, res){
-     if(req.tipo_usuario != 1){
-       return res.status(403).json({
-         error: "Requisição deve ser feito por usuario PCD" 
+     
+    if(req.tipo_usuario != 1){
+      return res.status(403).json({
+        error: "Requisição deve ser feito por usuario PCD" 
       })
+
+    }
+    let queryCidade,queryEstado;
+
+    if(req.query.cidade){
+      queryCidade = req.query.cidade.split('+').join(" ");
+    }else{
+      queryCidade = ""
      }
 
-    // const usuario_pcd = await Usuario_Pcd.findOne({
-    //   where: {id_usuario:req.id_usuario},
-    //   include:[{model:Endereco, as: "Endereco"}]
-    // })
+     if(req.query.estado){
+      queryEstado = req.query.estado.split('+').join(" ");
+     }else{
+      queryEstado = ""
+    }
 
-    // if(!(usuario_pcd)){
-    //   return res.status(200).json({
-    //     error: "Nenhum usuario encontrado" 
-    //  })
-    // }
     let query = req.params.query.split('+');
     let vagas=[];
     for(let i=0;i<query.length;i++){
       vagas.push(await Vagas.findAll({
         where :{titulo: {[Op.iLike]: "%"+query[i]+"%"}},
-
-        include:[{model:Usuario_Empresa, as: "Usuario_Empresa", attributes: ['id', 'razao_social']},
-        {model:Endereco, as: "Endereco", attributes: ['id', 'pais', 'estado', 'cidade']}],
+        include:[{
+          model:Usuario_Empresa, as: "Usuario_Empresa",
+          attributes: ['id', 'razao_social']
+        },
+        {model:Endereco, as: "Endereco",
+        attributes: ['id', 'pais', 'estado', 'cidade'],
+        where:{
+          cidade:{[Op.iLike]:"%"+queryCidade+"%"},
+          estado:{[Op.iLike]:"%"+queryEstado+"%"},
+        },
+      }],
         attributes: ['id', 'ativo', 'titulo', 'descricao', 'quantidade_vagas'],
-        order: [['id', 'ASC']],
       }))}
 
       if(vagas){

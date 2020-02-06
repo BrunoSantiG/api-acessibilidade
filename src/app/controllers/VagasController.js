@@ -2,17 +2,11 @@ import * as Yup from "yup";
 import Vagas from "../models/Vagas";
 import Usuario_Empresa from "../models/Usuario_Empresa";
 import Endereco from "../models/Endereco";
-<<<<<<< Updated upstream
-import { Router } from "express";
-import authMiddleware from "../middlewares/auth";
-const routes = new Router();
-=======
 import Usuario_Pcd from "../models/Usuario_Pcd";
 import authMiddleware from '../middlewares/auth';
 import Sequelize from 'sequelize';
 const Op = Sequelize.Op;
 
->>>>>>> Stashed changes
 
 class VagasController {
   async store(req, res) {
@@ -82,40 +76,6 @@ class VagasController {
       });
   }
 
-<<<<<<< Updated upstream
-  async showById(req, res) {
-    await Vagas.findOne({
-      where: { id: req.params.id },
-      include: [
-        {
-          model: Usuario_Empresa,
-          as: "Usuario_Empresa",
-          attributes: [
-            "id",
-            "cnpj",
-            "razao_social",
-            "telefone_fixo",
-            "telefone_celular"
-          ]
-        },
-        {
-          model: Endereco,
-          as: "Endereco",
-          attributes: [
-            "id",
-            "pais",
-            "estado",
-            "cidade",
-            "bairro",
-            "cep",
-            "logradouro",
-            "numero",
-            "complemento"
-          ]
-        }
-      ],
-      attributes: ["id", "ativo", "titulo", "descricao", "quantidade_vagas"]
-=======
   async indexByQuery(req, res){
      if(req.tipo_usuario != 1){
        return res.status(403).json({
@@ -167,7 +127,6 @@ class VagasController {
     });
     }).catch((err)=>{
       console.log("ERRO: "+err)
->>>>>>> Stashed changes
     })
       .then(vagas => {
         return res.status(201).json({

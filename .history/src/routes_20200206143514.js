@@ -112,9 +112,7 @@ routes.put(
 
 routes.put("/pcd/:pcd_id/curriculos", CurriculoController.update);
 routes.put("/freelancer/:freelancer_id/curriculos", CurriculoController.update);
-
-routes.get("/empresas/pesquisa/:empresa?", UsuarioEmpresaController.show);
-routes.get("/vagas/pesquisa/:query?", VagasController.indexByQuery);
+routes.get('/vagas/pesquisa/:query?', VagasController.indexByQuery);
 
 routes.get("/empresas", UsuarioEmpresaController.index);
 
@@ -125,10 +123,7 @@ routes.get("/pcd/usuario/:usuario", UsuarioPcdController.showByUsuario);
 routes.get("/pcd/id/:id", UsuarioPcdController.showById);
 routes.get("/pcd", UsuarioPcdController.index);
 
-routes.get(
-  "/freelancer/usuario/:usuario",
-  UsuarioFreelancerController.showByUsuario
-);
+routes.get("/freelancer/usuario/:usuario", UsuarioFreelancerController.showByUsuario);
 routes.get("/freelancer/:id", UsuarioFreelancerController.showById);
 routes.get("/freelancer", UsuarioFreelancerController.index);
 

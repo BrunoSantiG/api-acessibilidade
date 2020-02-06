@@ -3,19 +3,12 @@ import Usuario from "../models/Usuario";
 import Usuario_Empresa from "../models/Usuario_Empresa";
 import Endereco from "../models/Endereco";
 import authConfig from "../../config/auth";
-import bcrypt from "bcryptjs";
 
 function generateToken(params = {}) {
   const token = jwt.sign(params, authConfig.secret, {
     expiresIn: 86400
   });
   return token;
-}
-
-function cryptPass(senha) {
-  if (senha) {
-    return bcrypt.hash(senha, 10);
-  }
 }
 
 class UsuarioEmpresaController {
@@ -31,8 +24,6 @@ class UsuarioEmpresaController {
     const empresaExists = await Usuario_Empresa.findOne({
       where: { cnpj: req.body.usuario_empresa.cnpj }
     });
-
-    req.body.usuario.senha = await cryptPass(req.body.usuario.senha);
 
     if (usuarioExists) {
       return res.status(409).json({ error: "Usuario ja existe." });
@@ -60,18 +51,12 @@ class UsuarioEmpresaController {
     )
       .then(usuario_empresa => {
         usuario_empresa.Usuario.senha = undefined;
+        let { id } = Usuario;
         return res.status(201).json({
           usuario: usuario_empresa.Usuario,
-          token: jwt.sign(
-            {
-              id_usuario: usuario_empresa.Usuario.id,
-              tipo_usuario: usuario_empresa.Usuario.id_tipo_usuario
-            },
-            authConfig.secret,
-            {
-              expiresIn: authConfig.expiresIn
-            }
-          )
+          token: jwt.sign({ id }, authConfig.secret, {
+            expiresIn: authConfig.expiresIn
+          })
         });
       })
       .catch(err => {
@@ -103,26 +88,31 @@ class UsuarioEmpresaController {
   }
 
   async update(req, res) {
-    const empresa = await Usuario_Empresa.findOne({
-      where: { id_usuario: req.id_usuario },
-      include: [
-        { model: Usuario, as: "Usuario" },
-        { model: Endereco, as: "Endereco" }
-      ]
+    const { id_usuario, id_endereco } = await Usuario_Empresa.findByPk(
+      req.id_usuario
+    );
+    const empresa = await Usuario_Empresa.findByPk(req.id_usuario);
+
+    const usuarioPk = await Usuario.findOne({
+      where: { id: id_usuario }
+    });
+    const enderecoPk = await Endereco.findOne({
+      where: { id: id_endereco }
     });
 
     const { usuario, usuario_empresa, endereco } = req.body;
-
     const empresas = await empresa.update(
       usuario_empresa,
-      empresa.Usuario.update(usuario),
-      empresa.Endereco.update(endereco)
+      usuarioPk.update(usuario),
+      enderecoPk.update(endereco)
     );
+
     return res.status(201).json({ empresas });
   }
 
   async show(req, res) {
     const { empresa } = req.query;
+    console.log(empresa);
 
     const showEmpresa = await Usuario.findOne({
       where: { nome: empresa },
@@ -132,34 +122,12 @@ class UsuarioEmpresaController {
           model: Usuario_Empresa,
           as: "empresas",
           attributes: ["telefone_fixo", "telefone_celular"],
-          include: [
-            {
-              model: Endereco,
-              as: "Endereco",
-              attributes: [
-                "pais",
-                "estado",
-                "cidade",
-                "bairro",
-                "cep",
-                "logradouro",
-                "numero",
-                "complemento"
-              ]
-            }
-          ]
+          include: [{ model: Endereco, as: "Endereco" }]
         }
       ]
     });
 
-    if (!showEmpresa) {
-      return res.status(404).json({
-        error:
-          "Empresa não encontrada! Nome incorreto ou não existe em nossa base de dados"
-      });
-    }
-
-    return res.json(showEmpresa);
+    return res.json({ showEmpresa });
   }
 }
 

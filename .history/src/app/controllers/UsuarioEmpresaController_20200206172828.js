@@ -103,21 +103,25 @@ class UsuarioEmpresaController {
   }
 
   async update(req, res) {
-    const empresa = await Usuario_Empresa.findOne({
-      where: { id_usuario: req.id_usuario },
-      include: [
-        { model: Usuario, as: "Usuario" },
-        { model: Endereco, as: "Endereco" }
-      ]
+    const { id_usuario, id_endereco } = await Usuario_Empresa.findByPk(
+      req.id_usuario
+    );
+    const empresa = await Usuario_Empresa.findByPk(req.id_usuario);
+
+    const usuarioPk = await Usuario.findOne({
+      where: { id: id_usuario }
+    });
+    const enderecoPk = await Endereco.findOne({
+      where: { id: id_endereco }
     });
 
     const { usuario, usuario_empresa, endereco } = req.body;
-
     const empresas = await empresa.update(
       usuario_empresa,
-      empresa.Usuario.update(usuario),
-      empresa.Endereco.update(endereco)
+      usuarioPk.update(usuario),
+      enderecoPk.update(endereco)
     );
+
     return res.status(201).json({ empresas });
   }
 

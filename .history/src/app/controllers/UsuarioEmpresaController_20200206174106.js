@@ -110,15 +110,14 @@ class UsuarioEmpresaController {
         { model: Endereco, as: "Endereco" }
       ]
     });
-
-    const { usuario, usuario_empresa, endereco } = req.body;
-
-    const empresas = await empresa.update(
-      usuario_empresa,
-      empresa.Usuario.update(usuario),
-      empresa.Endereco.update(endereco)
-    );
-    return res.status(201).json({ empresas });
+    console.log(empresa.Endereco);
+    // const { usuario, usuario_empresa, endereco } = req.body;
+    // const empresas = await empresa.update(
+    //   usuario_empresa,
+    //   empresa.Usuario(usuario),
+    //   empresa.Endereco(endereco)
+    // );
+    // return res.status(201).json({ empresas });
   }
 
   async show(req, res) {

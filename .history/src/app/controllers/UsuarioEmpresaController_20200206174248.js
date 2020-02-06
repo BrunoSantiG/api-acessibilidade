@@ -110,9 +110,8 @@ class UsuarioEmpresaController {
         { model: Endereco, as: "Endereco" }
       ]
     });
-
+    console.log(empresa.Endereco);
     const { usuario, usuario_empresa, endereco } = req.body;
-
     const empresas = await empresa.update(
       usuario_empresa,
       empresa.Usuario.update(usuario),

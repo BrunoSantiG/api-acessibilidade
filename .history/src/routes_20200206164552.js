@@ -113,7 +113,7 @@ routes.put(
 routes.put("/pcd/:pcd_id/curriculos", CurriculoController.update);
 routes.put("/freelancer/:freelancer_id/curriculos", CurriculoController.update);
 
-routes.get("/empresas/pesquisa/:empresa?", UsuarioEmpresaController.show);
+routes.get("/empresas", UsuarioEmpresaController.show);
 routes.get("/vagas/pesquisa/:query?", VagasController.indexByQuery);
 
 routes.get("/empresas", UsuarioEmpresaController.index);

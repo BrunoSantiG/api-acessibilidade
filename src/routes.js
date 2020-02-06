@@ -71,12 +71,15 @@ routes.get("/vagas/empresa/:id", VagasController.showByEmpresas);
 
 routes.use(authMiddleware);
 
+<<<<<<< Updated upstream
 routes.patch("/usuario", UsuarioController.updateSenha);
 
 routes.post("/candidato", CandidatoController.store);
 
 routes.delete("/candidato", CandidatoController.delete);
 routes.delete("/vagas/:id", VagasController.delete);
+=======
+>>>>>>> Stashed changes
 routes.delete("/curriculos/:id", CurriculoController.delete);
 
 routes.put(
@@ -113,6 +116,7 @@ routes.put(
 routes.put("/pcd/:pcd_id/curriculos", CurriculoController.update);
 routes.put("/freelancer/:freelancer_id/curriculos", CurriculoController.update);
 
+<<<<<<< Updated upstream
 routes.get("/empresas", UsuarioEmpresaController.index);
 
 routes.get("/pcd/:freelancer_id/curriculos", CurriculoController.index);
@@ -128,5 +132,28 @@ routes.get("/freelancer", UsuarioFreelancerController.index);
 
 routes.get("/candidato", CandidatoController.showByUsuario);
 routes.get("/candidato/:vaga", CandidatoController.showByVaga);
+=======
+routes.get('/vagas/pesquisa/:query', VagasController.indexByQuery);
+routes.get("/curriculos/:id", CurriculoController.index);
+routes.get("/pcd/:freelancer_id/curriculos", CurriculoController.index);
+routes.put("/empresas", UsuarioEmpresaController.update);
+routes.get('/empresas', UsuarioEmpresaController.index);
+
+routes.get('/pcd/usuario/:usuario', UsuarioPcdController.showByUsuario);
+routes.get('/pcd/id/:id', UsuarioPcdController.showById);
+routes.get('/pcd', UsuarioPcdController.index);
+routes.put('/pcd', UsuarioPcdController.update);
+
+routes.get('/freelancer/usuario/:usuario', UsuarioFreelancerController.showByUsuario);
+routes.get('/freelancer/:id', UsuarioFreelancerController.showById);
+routes.get('/freelancer', UsuarioFreelancerController.index);
+routes.put('/freelancer', UsuarioFreelancerController.update);
+routes.patch('/usuario', UsuarioController.updateSenha);
+
+routes.post('/candidato', CandidatoController.store);
+routes.get('/candidato', CandidatoController.showByUsuario);
+routes.get('/candidato/:vaga', CandidatoController.showByVaga);
+routes.delete('/candidato', CandidatoController.delete);
+>>>>>>> Stashed changes
 
 export default routes;

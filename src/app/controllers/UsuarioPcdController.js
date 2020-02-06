@@ -1,4 +1,3 @@
-import * as Yup from "yup";
 import Usuario from "../models/Usuario";
 import Usuario_Pcd from "../models/Usuario_Pcd";
 import Endereco from "../models/Endereco";
@@ -14,8 +13,6 @@ function generateToken(params = {}){
   return token;
 }
 
-
-
 function cryptPass(senha){
   if (senha) {
     return bcrypt.hash(senha, 10);
@@ -24,49 +21,6 @@ function cryptPass(senha){
 
 class UsuarioPcdController {
   async store(req, res) {
-    const schemaUsuario = Yup.object().shape({
-      nome: Yup.string().required(),
-      usuario: Yup.string().required(),
-      email: Yup.string()
-        .email()
-        .required(),
-      senha: Yup.string()
-        .required(),
-      id_tipo_usuario: Yup.number().required(),
-    });
-
-    const schemaEndereco = Yup.object().shape({
-      pais: Yup.string().required(),
-      estado: Yup.string().required(),
-      cidade: Yup.string().required(),
-      bairro: Yup.string(),
-      cep: Yup.number(),
-      logradouro: Yup.string(),
-      numero: Yup.number(),
-      complemento: Yup.string(),
-    });
-
-    const schemaUsuarioPcd = Yup.object().shape({
-      rg: Yup.string().required(),
-      telefone_fixo:Yup.number(),
-      telefone_celular:Yup.number(),
-      dt_nascimento: Yup.date().required(),
-      laudo_url: Yup.string(),
-      id_tipo_deficiencia: Yup.string().required(),
-    });
-
-    if (!(await schemaUsuario.isValid(req.body.usuario))) {
-      return res.status(200).json({ error: "Campo usuario não esta de acordo" });
-    }
-
-    if (!(await schemaEndereco.isValid(req.body.endereco))) {
-      return res.status(200).json({ error: "Campo endereco não esta de acordo" });
-    }
-
-    if (!(await schemaUsuarioPcd.isValid(req.body.usuario_pcd))) {
-      return res.status(200).json({ error: "Campo usuario_pcd não esta de acordo" });
-    }
-
     const emailExists = await Usuario.findOne({
       where: {email: req.body.usuario.email},
     });
@@ -116,7 +70,6 @@ class UsuarioPcdController {
     });
   }
   
-
   async showByUsuario(req, res){
     const usuario = await Usuario.findOne({where :{usuario : req.params.usuario}})
     await Usuario_Pcd.findOne({ where: {id_usuario: usuario.id},
@@ -157,46 +110,6 @@ class UsuarioPcdController {
   }
 
   async update(req, res){
-    const schemaUsuario = Yup.object().shape({
-      nome: Yup.string().required(),
-      usuario: Yup.string().required(),
-      email: Yup.string()
-        .email()
-        .required(),
-    });
-
-    const schemaEndereco = Yup.object().shape({
-      pais: Yup.string().required(),
-      estado: Yup.string().required(),
-      cidade: Yup.string().required(),
-      bairro: Yup.string(),
-      cep: Yup.number(),
-      logradouro: Yup.string(),
-      numero: Yup.number(),
-      complemento: Yup.string(),
-    });
-
-    const schemaUsuarioPcd = Yup.object().shape({
-      rg: Yup.string().required(),
-      telefone_fixo:Yup.number(),
-      telefone_celular:Yup.number(),
-      dt_nascimento: Yup.string().required(),
-      laudo_url: Yup.string(),
-      id_tipo_deficiencia: Yup.string().required(),
-    });
-
-    if (!(await schemaUsuario.isValid(req.body.usuario))) {
-      return res.status(200).json({ error: "Campo usuario não esta de acordo" });
-    }
-
-    if (!(await schemaEndereco.isValid(req.body.endereco))) {
-      return res.status(200).json({ error: "Campo endereco não esta de acordo" });
-    }
-
-    if (!(await schemaUsuarioPcd.isValid(req.body.usuario_pcd))) {
-      return res.status(200).json({ error: "Campo usuario_pcd não esta de acordo" });
-    }
-
     const emailExists = await Usuario.findOne({
       where: {email: req.body.usuario.email},
     });

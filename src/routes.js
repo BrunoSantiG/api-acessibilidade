@@ -62,6 +62,9 @@ routes.post(
   VagasController.store
 );
 
+routes.post("/esqueciSenha", SessionController.forgotpassword);
+routes.patch("/resetarSenha/:token", SessionController.resetPass);
+
 routes.get("/usuario/usuarioExiste/:usuario", UsuarioController.UsuarioExists);
 routes.get("/usuario/emailExiste/:email", UsuarioController.EmailExists);
 routes.get("/tipoDeficiencia", TipoDeficienciaController.listAll);

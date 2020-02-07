@@ -33,9 +33,9 @@ class UsuarioPcdController {
     
 
     if (usuarioExists) {
-      return res.status(200).json({ error: "Usuario ja existe." });
+      return res.status(409).json({ error: "Usuario ja existe." });
     }else if(emailExists){
-      return res.status(200).json({ error: "Email ja esta em uso." });
+      return res.status(409).json({ error: "Email ja esta em uso." });
     }
 
 
@@ -119,9 +119,9 @@ class UsuarioPcdController {
     });
     
     if (usuarioExists && usuarioExists.id != req.id_usuario) {
-      return res.status(200).json({ error: "Usuario ja existe." });
+      return res.status(409).json({ error: "Usuario ja existe." });
     }else if(emailExists && emailExists.id != req.id_usuario){
-      return res.status(200).json({ error: "Email ja esta em uso." });
+      return res.status(409).json({ error: "Email ja esta em uso." });
     }
 
     const filtro = {
@@ -143,7 +143,7 @@ class UsuarioPcdController {
         })
       }
       else{
-        return res.status(200).json({
+        return res.status(404).json({
            error: "Usuario não encontrado." 
         })
       }

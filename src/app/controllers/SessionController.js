@@ -1,7 +1,16 @@
 import jwt from 'jsonwebtoken';
-import * as Yup from 'yup';
+import crypto from 'crypto';
+import bcrypt from "bcryptjs";
+import * as Yup from "yup";
+
+function cryptPass(senha) {
+  if (senha) {
+    return bcrypt.hash(senha, 10);
+  }
+}
 
 import Usuario from "../models/Usuario";
+import Token_Senha from "../models/Token_Senha";
 import authConfig from '../../config/auth';
 
 function generateToken(params = {}) {
@@ -13,6 +22,7 @@ function generateToken(params = {}) {
 
 
 class SessionController {
+
   async store(req, res) {
     const schema = Yup.object().shape({
       usuario: Yup.string().required(),
@@ -50,6 +60,90 @@ class SessionController {
         tipo_usuario: user.id_tipo_usuario
       })
     });
+  }
+
+  async forgotpassword(req, res){
+    let usuario = req.body.usuario;
+
+    const loginEmail = await Usuario.findOne({ where: { email: usuario } });
+    const loginUsuario = await Usuario.findOne({ where: { usuario: usuario}});
+
+    (loginEmail)?usuario=loginEmail:usuario=loginUsuario;
+
+    if(!usuario){
+      return res.status(404).send({error: 'Usuario não encontrado'});
+  }
+
+    const token = crypto.randomBytes(20).toString('hex');
+    const dt_expiracao = new Date();
+    dt_expiracao.setHours(dt_expiracao.getHours()+1);
+    await Token_Senha.create({
+      token:token,
+      dt_expiracao:dt_expiracao,
+      id_usuario:usuario.id,
+    }).then((novoToken)=>{
+      res.status(201).json({
+        token:novoToken.token,
+        email:usuario.email,
+      })
+    }).catch((err)=>{
+      res.status(500).json({
+        error:"erro no servidor: "+err
+      })
+    })
+  }
+
+  async resetPass(req,res){
+    const schema = Yup.object().shape({
+      senha: Yup.string().required(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(200).json({ error: 'Campos não preenchidos corretamente' });
+    }    
+
+    if(!req.params.token){
+      return res.status(404).send({error: 'Token não disponibilizado'});
+    }
+
+    const tokenUsuario = await Token_Senha.findOne({
+      where:{token:req.params.token}
+    })
+
+    if(!tokenUsuario){
+      return res.status(404).send({error: 'Token não existe'});
+    }
+
+    const usuario = await Usuario.findOne({where:{id:tokenUsuario.id_usuario}});
+
+    if(!usuario){
+      return res.status(404).send({error: 'Usuario não encontrado'});
+    }
+
+    const now = new Date();
+
+    if(now > tokenUsuario.dt_expiracao){
+        await tokenUsuario.destroy();
+        return res.status(400).send({error: 'Token expirado'});
+    }
+    req.body.senha = await cryptPass(req.body.senha);
+    await usuario.update({
+      senha: req.body.senha,
+    }).then(async (novaSenha)=>{
+      usuario.senha=undefined;
+      await tokenUsuario.destroy();
+      res.status(201).json({
+        usuario,
+        token: generateToken({
+          id_usuario: usuario.id,
+          tipo_usuario: usuario.id_tipo_usuario
+        })
+      })
+    }).catch((err)=>{
+      res.status(500).json({
+        err:"erro no servidor"+err
+      })
+    })
   }
 }
 

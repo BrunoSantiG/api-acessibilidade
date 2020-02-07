@@ -15,6 +15,7 @@ import Experiencias_Empresariais from "../app/models/Experiencias_Empresariais";
 import Experiencias_Academicas from "../app/models/Experiencias_Academicas";
 import Qualificacoes_Adicionais from "../app/models/Qualificacoes_Adicionais";
 import Candidato from "../app/models/Candidato";
+import Token_Senha from "../app/models/Token_Senha";
 require('dotenv').config()
 
 const models = [
@@ -31,7 +32,8 @@ const models = [
   Experiencias_Empresariais,
   Experiencias_Academicas,
   Qualificacoes_Adicionais,
-  Candidato
+  Candidato,
+  Token_Senha
 ];
 
 class Database {

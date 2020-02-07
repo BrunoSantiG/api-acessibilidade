@@ -8,6 +8,7 @@ class Usuario_freelancer extends Model {
         telefone_fixo:Sequelize.INTEGER,
         telefone_celular:Sequelize.INTEGER,
         dt_nascimento: Sequelize.DATE,
+        especialidade: Sequelize.STRING,
       },
       {
         sequelize

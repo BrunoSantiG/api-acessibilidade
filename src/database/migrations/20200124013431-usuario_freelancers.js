@@ -26,6 +26,10 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false,
       },
+      especialidade: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
       id_curriculo: {
         type: Sequelize.INTEGER,
         allowNull: false,

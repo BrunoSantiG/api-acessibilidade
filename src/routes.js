@@ -118,6 +118,8 @@ routes.put("/freelancer/:freelancer_id/curriculos", CurriculoController.update);
 
 routes.get("/empresas/pesquisa/:empresa?", UsuarioEmpresaController.show);
 routes.get("/vagas/pesquisa/:query?", VagasController.indexByQuery);
+routes.get("/freelancer/pesquisa/:query?", UsuarioFreelancerController.indexByQuery);
+routes.get("/freelancer/pesquisa/nome/:query?", UsuarioFreelancerController.indexByNome);
 
 routes.get("/empresas", UsuarioEmpresaController.index);
 

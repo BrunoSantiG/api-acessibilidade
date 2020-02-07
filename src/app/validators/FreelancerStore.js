@@ -6,7 +6,8 @@ export default async (req, res, next) => {
       cpf: Yup.string().required(),
       telefone_fixo: Yup.number(),
       telefone_celular: Yup.number(),
-      dt_nascimento: Yup.string().required()
+      dt_nascimento: Yup.string().required(),
+      especialidade: Yup.string().required()
     });
 
     await schemaUsuarioFreelancer.validate(req.body.usuario_freelancer, {

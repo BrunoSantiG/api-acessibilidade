@@ -7,7 +7,9 @@ import authConfig from "../../config/auth";
 import bcrypt from "bcryptjs";
 import { Router } from "express";
 import authMiddleware from "../middlewares/auth";
+import Sequelize from 'sequelize';
 const routes = new Router();
+const Op = Sequelize.Op;
 
 function generateToken(params = {}) {
   const token = jwt.sign(params, authConfig.secret, {
@@ -46,6 +48,7 @@ class UsuarioFreelancerController {
         telefone_fixo: req.body.usuario_freelancer.telefone_fixo,
         telefone_celular: req.body.usuario_freelancer.telefone_celular,
         dt_nascimento: req.body.usuario_freelancer.dt_nascimento,
+        especialidade: req.body.usuario_freelancer.especialidade,
         Usuario: req.body.usuario,
         Curriculo: {
           objetivo: ""
@@ -178,6 +181,85 @@ class UsuarioFreelancerController {
         });
       });
   }
+
+  async indexByQuery(req, res){
+     
+    if(req.tipo_usuario === 3){
+      return res.status(403).json({
+        error: "Requisição deve ser feito por usuario PCD ou usuario Empresa" 
+      })
+
+    }
+    let queryCidade,queryEstado;
+
+    if(req.query.cidade){
+      queryCidade = req.query.cidade.split('+').join(" ");
+    }else{
+      queryCidade = ""
+     }
+
+     if(req.query.estado){
+      queryEstado = req.query.estado.split('+').join(" ");
+     }else{
+      queryEstado = ""
+    }
+
+    let query = req.params.query.split('+');
+    let freelancer=[];
+    for(let i=0;i<query.length;i++){
+      freelancer.push(await Usuario_Freelancer.findAll({
+        where :{especialidade: {[Op.iLike]: "%"+query[i]+"%"}},
+        include:[{
+          model:Usuario, as: "Usuario",
+          attributes: ['nome', 'email']
+        },
+        {model:Endereco, as: "Endereco",
+        attributes: ['pais', 'estado', 'cidade'],
+        where:{
+          cidade:{[Op.iLike]:"%"+queryCidade+"%"},
+          estado:{[Op.iLike]:"%"+queryEstado+"%"},
+        },
+      }],
+        attributes: ['telefone_fixo', 'telefone_celular', 'especialidade'],
+      }))}
+
+      if(freelancer){
+        return res.status(200).json(freelancer);
+      }else{
+        return res.status(200).json({error:"Nenhum Freelancer encontrado"});
+      }
+  }
+
+  async indexByNome(req, res) {
+
+    let query = req.params.query.split('+');
+    let usuario=[];
+    let usuarioList=[];
+    for(let i=0;i<query.length;i++){
+     usuario.push( usuarioList = await Usuario.findAll({
+        where :[{nome: {[Op.iLike]: "%"+query[i]+"%"}}, {id_tipo_usuario: 3}]
+    }))}
+
+    let freelancer=[];
+    for(let i=0;i<usuarioList.length;i++){
+        freelancer.push(await Usuario_Freelancer.findAll({
+            where : {id_usuario: usuarioList[i].id},
+            include:[{
+              model:Usuario, as: "Usuario",
+              attributes: ['nome', 'email']
+            },
+            {model:Endereco, as: "Endereco",
+            attributes: ['pais', 'estado', 'cidade']
+          }],
+            attributes: ['telefone_fixo', 'telefone_celular', 'especialidade'],
+      }))}
+
+      if(freelancer){
+        return res.status(200).json(freelancer);
+      }else{
+        return res.status(200).json({error:"Nenhum Freelancer encontrado"});
+      }
+    }
 }
 
 export default new UsuarioFreelancerController();

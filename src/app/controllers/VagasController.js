@@ -178,10 +178,7 @@ class VagasController {
       where: { id: req.params.id },
       include: { model: Endereco, as: "Endereco" }
     });
-
-    await Endereco.destroy({ where: { id: vagas.id_endereco } });
-    await Vagas.destroy({ where: { id: req.params.id } })
-      .then(() => {
+    await vagas.destroy().then(() => {
         return res.status(201).json({
           message: "Vaga deletada com sucesso!"
         });

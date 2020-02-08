@@ -114,6 +114,7 @@ class CurriculoController {
     });
 
     const { curriculo_acads, curriculo_emps, curriculo_quals } = curriculo;
+    let { objetivo } = curriculo;
 
     const [Experiencias_academicas] = curriculo_acads;
     const [Experiencias_empresariais] = curriculo_emps;
@@ -123,6 +124,7 @@ class CurriculoController {
       return res.status(404).json({ error: "Curriculo não existe" });
     }
 
+    objetivo = "";
     await Experiencias_academicas.destroy();
     await Experiencias_empresariais.destroy();
     await Qualificacoes_adicionais.destroy()

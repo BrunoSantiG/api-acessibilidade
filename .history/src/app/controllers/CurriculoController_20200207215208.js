@@ -105,7 +105,7 @@ class CurriculoController {
   async delete(req, res) {
     const curriculo = await Curriculo.findOne({
       where: { id: req.params.id },
-      attributes: ["id", "objetivo"],
+      attributes: ["objetivo"],
       include: [
         { model: Qualificacoes_Adicionais, as: "curriculo_quals" },
         { model: Experiencias_Academicas, as: "curriculo_acads" },
@@ -113,19 +113,12 @@ class CurriculoController {
       ]
     });
 
-    const { curriculo_acads, curriculo_emps, curriculo_quals } = curriculo;
-
-    const [Experiencias_academicas] = curriculo_acads;
-    const [Experiencias_empresariais] = curriculo_emps;
-    const [Qualificacoes_adicionais] = curriculo_quals;
-
     if (!curriculo) {
-      return res.status(404).json({ error: "Curriculo não existe" });
+      return res.status(403).json({ error: "Curriculo não existe" });
     }
 
-    await Experiencias_academicas.destroy();
-    await Experiencias_empresariais.destroy();
-    await Qualificacoes_adicionais.destroy()
+    await curriculo
+      .destroy()
       .then(() => {
         return res.status(201).json({
           message: "Curriculo deletado com sucesso!"

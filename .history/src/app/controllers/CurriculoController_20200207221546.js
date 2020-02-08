@@ -113,19 +113,16 @@ class CurriculoController {
       ]
     });
 
-    const { curriculo_acads, curriculo_emps, curriculo_quals } = curriculo;
+    const { curriculo_acads, curriculo_emps, curriculo_qual } = curriculo;
 
-    const [Experiencias_academicas] = curriculo_acads;
-    const [Experiencias_empresariais] = curriculo_emps;
-    const [Qualificacoes_adicionais] = curriculo_quals;
+    console.log(curriculo_acads);
 
     if (!curriculo) {
       return res.status(404).json({ error: "Curriculo não existe" });
     }
 
-    await Experiencias_academicas.destroy();
-    await Experiencias_empresariais.destroy();
-    await Qualificacoes_adicionais.destroy()
+    await curriculo
+      .destroy({ except: { model: Usuario_Pcd, as: "pcd_curriculo" } })
       .then(() => {
         return res.status(201).json({
           message: "Curriculo deletado com sucesso!"

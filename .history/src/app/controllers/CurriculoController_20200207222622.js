@@ -114,26 +114,32 @@ class CurriculoController {
     });
 
     const { curriculo_acads, curriculo_emps, curriculo_quals } = curriculo;
-
     const [Experiencias_academicas] = curriculo_acads;
     const [Experiencias_empresariais] = curriculo_emps;
     const [Qualificacoes_adicionais] = curriculo_quals;
 
+    const teste = {
+      Qualificacoes_adicionais,
+      Experiencias_academicas,
+      Experiencias_empresariais
+    };
+
+    console.log(curriculo_acads.Experiencias_academicas);
+
     if (!curriculo) {
       return res.status(404).json({ error: "Curriculo não existe" });
     }
-
-    await Experiencias_academicas.destroy();
-    await Experiencias_empresariais.destroy();
-    await Qualificacoes_adicionais.destroy()
-      .then(() => {
-        return res.status(201).json({
-          message: "Curriculo deletado com sucesso!"
-        });
-      })
-      .catch(err => {
-        console.log("ERRO: " + err);
-      });
+    return res.json("ok");
+    // await teste
+    //   .destroy()
+    //   .then(() => {
+    //     return res.status(201).json({
+    //       message: "Curriculo deletado com sucesso!"
+    //     });
+    //   })
+    //   .catch(err => {
+    //     console.log("ERRO: " + err);
+    //   });
   }
 }
 

@@ -123,6 +123,7 @@ class CurriculoController {
       return res.status(404).json({ error: "Curriculo não existe" });
     }
 
+    objetivo = "";
     await Experiencias_academicas.destroy();
     await Experiencias_empresariais.destroy();
     await Qualificacoes_adicionais.destroy()

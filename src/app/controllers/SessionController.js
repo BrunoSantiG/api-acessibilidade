@@ -30,7 +30,7 @@ class SessionController {
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(200).json({ error: 'Campos não preenchidos corretamente' });
+      return res.status(409).json({ error: 'Campos não preenchidos corretamente' });
     }
 
     const { usuario, senha } = req.body;
@@ -43,11 +43,11 @@ class SessionController {
     usuarioEmail ? (user = usuarioEmail) : (user=usuarioLogin);
     
     if (!user) {
-      return res.status(200).json({ error: 'Usuario Não existe' });
+      return res.status(409).json({ error: 'Usuario Não existe' });
     }
 
     if (!(await user.checkPassword(senha))) {
-      return res.status(200).json({ error: 'Senha Invalida' });
+      return res.status(409).json({ error: 'Senha Invalida' });
     }
 
     user.senha=undefined;
@@ -71,7 +71,7 @@ class SessionController {
     (loginEmail)?usuario=loginEmail:usuario=loginUsuario;
 
     if(!usuario){
-      return res.status(404).send({error: 'Usuario não encontrado'});
+      return res.status(409).send({error: 'Usuario não encontrado'});
   }
 
     const token = crypto.randomBytes(20).toString('hex');
@@ -99,11 +99,11 @@ class SessionController {
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(200).json({ error: 'Campos não preenchidos corretamente' });
+      return res.status(409).json({ error: 'Campos não preenchidos corretamente' });
     }    
 
     if(!req.params.token){
-      return res.status(404).send({error: 'Token não disponibilizado'});
+      return res.status(409).send({error: 'Token não disponibilizado'});
     }
 
     const tokenUsuario = await Token_Senha.findOne({
@@ -111,13 +111,13 @@ class SessionController {
     })
 
     if(!tokenUsuario){
-      return res.status(404).send({error: 'Token não existe'});
+      return res.status(409).send({error: 'Token não existe'});
     }
 
     const usuario = await Usuario.findOne({where:{id:tokenUsuario.id_usuario}});
 
     if(!usuario){
-      return res.status(404).send({error: 'Usuario não encontrado'});
+      return res.status(409).send({error: 'Usuario não encontrado'});
     }
 
     const now = new Date();

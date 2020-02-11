@@ -17,14 +17,12 @@ module.exports = {
         allowNull: false
       },
       telefone_fixo:{
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull:true,
-        unique:true,
       },
       telefone_celular:{
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull:true,
-        unique:true,
       },
       id_endereco: {
         type: Sequelize.INTEGER,

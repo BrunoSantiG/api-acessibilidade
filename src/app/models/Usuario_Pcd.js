@@ -5,8 +5,8 @@ class Usuario_pcd extends Model {
     super.init(
       {
         rg: Sequelize.STRING,
-        telefone_fixo: Sequelize.INTEGER,
-        telefone_celular: Sequelize.INTEGER,
+        telefone_fixo: Sequelize.STRING,
+        telefone_celular: Sequelize.STRING,
         dt_nascimento: Sequelize.STRING,
         laudo_verificado: Sequelize.STRING,
         laudo_url: Sequelize.STRING

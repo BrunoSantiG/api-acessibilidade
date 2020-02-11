@@ -6,8 +6,8 @@ class Usuario_empresa extends Model {
       {
         cnpj: Sequelize.STRING,
         razao_social: Sequelize.STRING,
-        telefone_fixo:Sequelize.INTEGER,
-        telefone_celular:Sequelize.INTEGER,
+        telefone_fixo:Sequelize.STRING,
+        telefone_celular:Sequelize.STRING,
       },
       {
         sequelize

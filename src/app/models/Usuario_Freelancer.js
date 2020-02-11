@@ -5,8 +5,8 @@ class Usuario_freelancer extends Model {
     super.init(
       {
         cpf: Sequelize.STRING,
-        telefone_fixo:Sequelize.INTEGER,
-        telefone_celular:Sequelize.INTEGER,
+        telefone_fixo:Sequelize.STRING,
+        telefone_celular:Sequelize.STRING,
         dt_nascimento: Sequelize.DATE,
         especialidade: Sequelize.STRING,
       },

@@ -4,8 +4,8 @@ export default async (req, res, next) => {
   try {
     const schemaUsuarioFreelancer = Yup.object().shape({
       cpf: Yup.string().required(),
-      telefone_fixo: Yup.number(),
-      telefone_celular: Yup.number(),
+      telefone_fixo: Yup.string(),
+      telefone_celular: Yup.string(),
       dt_nascimento: Yup.string().required(),
       especialidade: Yup.string().required()
     });

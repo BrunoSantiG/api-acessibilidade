@@ -4,8 +4,8 @@ export default async (req, res, next) => {
   try {
     const schemaUsuarioPcd = Yup.object().shape({
       rg: Yup.string().required(),
-      telefone_fixo: Yup.number(),
-      telefone_celular: Yup.number(),
+      telefone_fixo: Yup.string(),
+      telefone_celular: Yup.string(),
       dt_nascimento: Yup.date().required(),
       laudo_url: Yup.string(),
       id_tipo_deficiencia: Yup.string().required()

@@ -72,6 +72,11 @@ class UsuarioPcdController {
   
   async showByUsuario(req, res){
     const usuario = await Usuario.findOne({where :{usuario : req.params.usuario}})
+    if(!usuario){
+      return res.status(409).json({
+        error: "Usuario não existe." 
+     })
+    }
     await Usuario_Pcd.findOne({ where: {id_usuario: usuario.id},
       include:[{model: Usuario,as: 'Usuario'},{model:Endereco, as: "Endereco"}]}).then((usuario_pcd) =>{
         usuario_pcd.Usuario.senha=undefined;
@@ -79,7 +84,10 @@ class UsuarioPcdController {
         usuario_pcd,
     });
     }).catch((err)=>{
-      console.log("ERRO: "+err)
+      console.log("ERRO: "+err);
+      return res.status(500).json({
+        error: "Erro no servidor: "+err 
+     })
     })
   }
 
@@ -91,8 +99,9 @@ class UsuarioPcdController {
         usuario_pcd,
     });
     }).catch((err)=>{
+      console.log("ERRO: "+err);
       return res.status(500).json({
-        error: "Erro no servidor." 
+        error: "Erro no servidor: "+err 
      })
     })
   }
@@ -103,8 +112,9 @@ class UsuarioPcdController {
         usuario,
     });
     }).catch((err)=>{
+      console.log("ERRO: "+err);
       return res.status(500).json({
-        error: "Erro no servidor." 
+        error: "Erro no servidor: "+err  
      })
     })
   }
@@ -148,8 +158,9 @@ class UsuarioPcdController {
         })
       }
     }).catch((err) => {
+      console.log("ERRO: "+err);
       return res.status(500).json({
-        error: "Erro no servidor." 
+        error: "Erro no servidor: "+err  
      })
     })
   }

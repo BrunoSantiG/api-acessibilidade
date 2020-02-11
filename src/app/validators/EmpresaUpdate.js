@@ -5,8 +5,8 @@ export default async (req, res, next) => {
     const schemaUsuarioEmpresa = Yup.object().shape({
       cnpj: Yup.string(),
       razao_social: Yup.string(),
-      telefone_fixo: Yup.number(),
-      telefone_celular: Yup.number()
+      telefone_fixo: Yup.string(),
+      telefone_celular: Yup.string()
     });
 
     await schemaUsuarioEmpresa.validate(req.body.usuario_empresa, {

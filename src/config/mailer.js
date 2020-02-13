@@ -14,6 +14,7 @@ class Mail {
       secure,
       auth: auth.user ? auth : null,
       tls: { rejectUnauthorized: false },
+      ssl: { rejectUnauthorized: false },
     });
 
     this.configureTemplates();

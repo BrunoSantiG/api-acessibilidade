@@ -90,6 +90,7 @@ class SessionController {
         to: usuario.email,
         from: 'bruno.santi.98@outlook.com',
         template: 'auth/forgotPass',
+        subject: 'Recuperação de Senha Inclu Hub',
         context: {token}
     },(err) => {
         if(err){

@@ -1,10 +1,10 @@
 require('dotenv').config();
 export default {
-    host: "smtp.office365.com",
+    host: process.env.MAIL_HOST,
     port: 587,
     secure: false,
     auth: {
-      user: "bruno.santi.98@outlook.com",
+      user: process.env.MAIL_USER,
       pass: process.env.MAIL_PASS,
     },
   };

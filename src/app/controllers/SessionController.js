@@ -13,6 +13,8 @@ import Usuario from "../models/Usuario";
 import Token_Senha from "../models/Token_Senha";
 import authConfig from '../../config/auth';
 
+import mailer from '../../config/mailer';
+
 function generateToken(params = {}) {
   const token = jwt.sign(params, authConfig.secret, {
     expiresIn: 86400,
@@ -74,17 +76,29 @@ class SessionController {
       return res.status(409).send({error: 'Usuario não encontrado'});
   }
 
-    const token = crypto.randomBytes(20).toString('hex');
+    const token = crypto.randomBytes(2).toString('hex').toUpperCase();;
     const dt_expiracao = new Date();
     dt_expiracao.setHours(dt_expiracao.getHours()+1);
+
     await Token_Senha.create({
       token:token,
       dt_expiracao:dt_expiracao,
       id_usuario:usuario.id,
-    }).then((novoToken)=>{
+    }).then(async (novoToken)=>{
+
+      await mailer.sendMail({
+        to: usuario.email,
+        from: 'bruno.santi.98@outlook.com',
+        template: 'auth/forgotPass',
+        context: {token}
+    },(err) => {
+        if(err){
+            return res.status(417).send({error: 'erro: '+err});
+        }
+    });
+
       res.status(201).json({
-        token:novoToken.token,
-        email:usuario.email,
+        msg:"Email de recuperação enviado para: "+usuario.email
       })
     }).catch((err)=>{
       res.status(500).json({
